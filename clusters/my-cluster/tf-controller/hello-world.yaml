@@ -1,0 +1,31 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: helloworld
+  namespace: flux-system
+spec:
+  interval: 30s
+  url: https://github.com/priyanka-ravi/hello-world-terraform
+  ref:
+    branch: main
+---
+apiVersion: infra.contrib.fluxcd.io/v1alpha1
+kind: Terraform
+metadata:
+  name: helloworld
+  namespace: flux-system
+spec:
+  approvePlan: "auto"
+  interval: 1m
+  path: ./
+  backendConfig:
+    disable: true
+  cliConfigSecretRef:
+    name: tfe-cli-config
+    namespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: helloworld
+    namespace: flux-system
+  writeOutputsToSecret:
+    name: helloworld-output

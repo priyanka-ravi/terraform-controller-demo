@@ -18,6 +18,7 @@ spec:
   approvePlan: ""
   interval: 1m
   path: ./
+  storeReadablePlan: human
   backendConfig:
     disable: true
   cliConfigSecretRef:
